@@ -21,9 +21,6 @@ def get_contract_code_description(address, client=None):
         client = etherscan.EtherscanClient()
 
     abi = client.get_contract_abi(address)
-    logging.info("Contract abi: %s", abi)
-
     code = client.get_contract_source_code(address)
-    logging.info("Contract code: %s", code)
 
     return chatgpt.explain_solidity(abi, code)
