@@ -24,7 +24,6 @@ def generate_contract_description(contract_abi, contract_sourcecode, model="gpt-
     And here is the contract source code:
 
     $code
-
     """
 
     code = ''
@@ -40,7 +39,45 @@ def generate_contract_description(contract_abi, contract_sourcecode, model="gpt-
     response = client.chat.completions.create(
         model=model,
         messages=[
-            {"role": "system", "content": "You are a solidity expert to assist explaining solidity contract from its abi."},
+            {"role": "system", "content": "You are a solidity auditor to assist explaining solidity smart contract."},
+            {"role": "user", "content": msg},
+        ]
+    )
+
+    # return response
+    return response.choices[0].message.content
+
+
+def generate_search_tags(contract_abi, contract_sourcecode, model="gpt-3.5-turbo"):
+    template = """
+    Extract all the valid search tags from the contract abi and source code. Search tags are words with great importance when
+    indexing the document into search engine. For example, if the contract has a method called "transfer", then "transfer" is a valid search tag.
+    It should consider that the search tags should be the most probable words that a user would search for when they are looking for this contract.
+    Please remove all the duplicates and return a list of search tags.
+
+    Here is the contract abi:
+
+    $abi
+
+    And here is the contract source code:
+
+    $code
+    """
+
+    code = ''
+
+    for filename, content in contract_sourcecode.items():
+        code += filename
+        code += '\n'
+        code += content
+
+    msg = string.Template(template).substitute(abi=contract_abi, code=code)
+    logging.debug('Chatgpt message: %s', msg)
+    client = OpenAI()
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": "You are a solidity auditor to assist extract search tags from given solidity smart contract."},
             {"role": "user", "content": msg},
         ]
     )

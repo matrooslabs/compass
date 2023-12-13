@@ -20,8 +20,11 @@ dotenv.load_dotenv(verbose=True)
 
 def main(_):
     logging.info('Extracting features for %s', FLAGS.contract_address)
-    desc = features.get_contract_code_description(FLAGS.contract_address)
+    desc = features.get_description(FLAGS.contract_address)
     logging.info('Contract %s Description: %s', FLAGS.contract_address, desc)
+
+    tags = features.get_search_tags(FLAGS.contract_address)
+    logging.info('Contract %s Search Tags: %s', FLAGS.contract_address, tags)
 
 
 if __name__ == '__main__':
