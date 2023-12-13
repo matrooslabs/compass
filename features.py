@@ -3,16 +3,6 @@ import chatgpt
 import etherscan
 
 
-def get_contract_code(address, client=None):
-    """
-    Gets the contract code from the address
-    """
-    if not client:
-        client = etherscan.EtherscanClient()
-
-    return client.get_contract(address)
-
-
 def get_contract_code_description(address, client=None):
     """
     Gets the contract code analysis from the address using chatgpt
@@ -23,4 +13,4 @@ def get_contract_code_description(address, client=None):
     abi = client.get_contract_abi(address)
     code = client.get_contract_source_code(address)
 
-    return chatgpt.explain_solidity(abi, code)
+    return chatgpt.generate_contract_description(abi, code)

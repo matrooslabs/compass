@@ -9,13 +9,13 @@ import string
 from openai import OpenAI
 
 
-def explain_solidity(contract_abi, contract_sourcecode, model="gpt-3.5-turbo"):
+def generate_contract_description(contract_abi, contract_sourcecode, model="gpt-3.5-turbo"):
 
     template = """
-    This is a solidity contract. Please explain step by step what this contract does.
+    This is an ethereum solidity contract. Please explain step by step what this contract does.
     You should list out all the methods and storages used in this contract.
-    Explain every methods and storages in detail as if you are explaining it to a golden retriever or a five year old child
-    who has no idea what solidity or what blockchain is.
+    Explain every methods and storage variables in detail as if you are explaining it to a golden retriever or a five year old child.
+    It wasn't brain that got me here, I assure you that.
 
     Here is the contract abi:
 
