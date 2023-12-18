@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 .python-version
+#OS Stuff
+.DS_Store
